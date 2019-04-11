@@ -1,0 +1,83 @@
+{%extends 'layout.html'%}
+{%block content%}
+<div class="row container-fluid" style="margin-left: 5px;margin-top: 10px;">
+    <div class="col-md-8" style="border: 2px solid grey;background-color: rgba(255,255,255,0.3);margin-top: 10px;border-radius: 15px; padding: 10px;">
+    	
+    	<div style="text-align: center;font-size: 30px">
+    		<h1 style="border-bottom: 2px solid black;"><b>Members</b></h1>
+    		{%for m in member%}
+    		<article style="padding: 10px; background-color: rgba(0,200,120,0.8); margin: 5px;border-radius: 15px;">
+    		<div class="row">
+    		<div class="col-md-3">
+    			<img src="{{url_for('static',filename='images/'+m.image_file)}}" width="100%" height="100%">
+    		</div>
+    		<div class="col-md-7" style="text-align: left;">
+    			<h3>{{m.username}}</h3>
+    			<h5>{{m.email}}</h5>
+    		</div>
+    		</div>
+   	 		</article>
+
+    		{%endfor%}
+    	</div>
+    	
+    </div>
+    
+    <div class="col-md-4" style="margin-top:10px ; background-color:rgba(255,255,255,0.8); border-radius: 10px; ">
+        {%if current_user.is_authenticated%}
+        <h1>Logged In</h1>
+        {%else%}
+    	<form method="POST" action="">
+    		{{ form.hidden_tag() }}
+    		<fieldset class="form-group">
+    			<legend class="border-bottom mb-4">Log In</legend>
+    			<div class="form-group">
+    				{{form.email.label(class="form-control-label")}}
+    				{%if form.email.errors%}
+    					{{form.email(class="form-control form-control-lg is-invalid")}}
+    					<div class="invalid-feedback">
+    						{% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                           </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+    						
+    					
+    			
+    			</div>
+    			<div class="form-group">
+    				{{form.password.label(class="form-control-label")}}
+    				{%if form.password.errors%}
+    					{{form.password(class="form-control form-control-lg is-invalid")}}
+    					<div class="invalid-feedback">
+    						{% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="form-control form-control-lg") }}
+                    {% endif %}
+    						
+    					
+    			</div>		
+    			<div class="form-check">
+    				{{form.remember(class="form-check-input")}}
+    				{{form.remember.label(class="form-check-label")}}
+    				
+    			</div>
+    	
+    		</fieldset>
+    	<div class="form-group">
+    		{{form.submit(class="btn btn-primary")}}
+    		<small class="text-muted ml-2">
+                    <a href="#">Forgot Password?</a>
+            </small>
+    	</div>
+    	</form>
+
+    {%endif%}    	
+    </div>
+</div>
+{%endblock%}

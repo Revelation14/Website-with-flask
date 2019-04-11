@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="	sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>-->
+  	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='main.css')}}">
+  	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  	<link rel="shortcut icon" type="text/css" href="{{url_for('static',filename='images/icon.png')}}">
+  	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<!--{%if title%}
+	<title>{{ title }}</title>
+	{%else%}
+	<title>Etc</title>
+	{%endif%}-->
+	{% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>Flask Blog</title>
+    {% endif %}
+</head>
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+   <a class="navbar-brand" href="#">Website</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{{url_for('home')}}"><span class="fa fa-home">&nbsp;Home</span></a>
+      </li>
+       <li class="nav-item active">
+        <a class="nav-link" href="{{url_for('gallery')}}"><span class="fa fa-picture-o">&nbsp;Gallery</span></a>
+      </li>
+     
+      <li class="nav-item active">
+        <a class="nav-link" href="{{url_for('members')}}"><span class="fa fa-users">&nbsp;Members</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{{url_for('about')}}"><span class="fa fa-gratipay">&nbsp;About Us</span></a>
+      </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      {%if current_user.is_authenticated%}
+      <li class="nav-item active">
+        <a class="nav-link " href="{{url_for('logout')}}"><span class="fa fa-sign-out">&nbsp;Logout</span></a>
+      </li>
+      <li class="nav-item active">     
+        <a class="nav-link " href="{{url_for('content')}}"><span class="fa fa-pencil-square-o">&nbsp;Post Content</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link " href="{{url_for('update_info')}}"><span class="fa fa-user-circle-o">&nbsp;Edit Your Profile</span></a>
+      </li>
+      
+      {%else%}
+      <li class="nav-item active">
+        <a class="nav-link " href="{{url_for('login')}}"><span class="fa fa-sign-in">&nbsp;Login</span></a>
+      </li>
+	  <li class="nav-item active">     
+        <a class="nav-link " href="{{url_for('register')}}"><span class="fa fa-plus-square">&nbsp;Create New Account</span></a>
+      </li>
+      
+      {%endif%}
+      </ul>
+      
+  </div>
+</nav>
+<main role="main" class="container">
+	<div class="row">
+		<div class="col-md-12">
+			{%with messages = get_flashed_messages(with_categories=true)%}
+				{%if messages%}
+					{%for category,message in messages%}
+						<div class="alert alert-{{ category }} alert-dismissible fade show">
+							{{message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+						</div>
+					{%endfor%}
+				{%endif%}
+			{%endwith%}
+		</div>
+		
+	</div>
+</main>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<body background="{{url_for('static',filename='images/bg.jpg')}}"  style="background-attachment: fixed;background-repeat: no-repeat;background-size: cover;">
+	{%block content%}
+	{%endblock%}
+</body>
+</html>
